@@ -17,6 +17,10 @@ public class GramMap {
 		parse(_filename);
 	}
 	
+	public Map<String, Integer> getGramMap(){
+		return this.map;
+	}
+	
 	private void parse(String filename)throws Exception{
 		// declaring buffered reader to read from file
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
@@ -77,7 +81,7 @@ public class GramMap {
 					 */
 					int mod = charCounter % gramSize;
 					for (int y = 0; y < mod; y++){
-						sb[y].append(next);
+						sb[y].append(Character.toUpperCase(next));
 					}
 				} else {
 					// if sequence of string builders is set, we can continue normally adding characters
