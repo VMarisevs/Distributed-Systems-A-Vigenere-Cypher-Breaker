@@ -5,16 +5,30 @@ import java.util.*;
 
 public class QuadgramMap extends GramMap{
 
-	private Map<String, Integer> map = new HashMap<String, Integer>();
+	/*
+	 * It will be a singleton class,
+	 * We don't need several instances of quadgram map, 
+	 * that hold the breaking methods
+	 */
+	private static QuadgramMap instance;
 	
-	public QuadgramMap(String filename) throws Exception{
-		// parsing file and building the map of quadgrams
-		super(filename, 4);
+	protected QuadgramMap(){
+		// it is quad = 4 gram
+		super(4);
+	}
+	
+	public static QuadgramMap getInstance(){
+		
+		if (instance == null){
+			instance = new QuadgramMap();
+		}
+		
+		return instance;
 	}
 	
 	
-	
 	public static void main(String[] args) throws Exception {
-		new QuadgramMap("./WarAndPeace-Tolstoy.txt");
+		QuadgramMap qm = QuadgramMap.getInstance();
+		qm.preloadGramsFromFile("./WarAndPeace-Tolstoy.txt");
 	}
 }

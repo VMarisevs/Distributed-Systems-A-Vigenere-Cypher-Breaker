@@ -1,38 +1,103 @@
 package ie.gmit.sw;
 
 public class KeyEnumerator {
-	private char[] getNextKey(char[] key){
-		for (int i = key.length - 1; i >=0; i--){
-			if (key[i] =='Z'){
-				if (i == 0) return null;
-				key[i] = 'A';
-			}else{
-				key[i]++;
-				break;
+	
+	// minimal key length -> 3 characters long
+	public static int MIN_KEY_LENGTH = 3;
+	
+	
+	private GramMap map;
+	
+	// sorted list of best scores
+	private Scores bestScores = new Scores();
+	
+	
+	public KeyEnumerator() throws Exception{
+		// loading all quadgrams into map
+		map = QuadgramMap.getInstance();
+		/*
+		 * Now we can populate the map with quad grams generated from text file
+		 * or simply passing tab separated file with quad gram list
+		 */
+		
+		map.parseGramsFromFile("./WarAndPeace-Tolstoy.txt");
+		//map.preloadGramsFromFile("./quadgrams.txt");
+	
+	}	
+	
+	// this function generates keys and decrypts the string and populates the scores table
+	private void permutation(String prefix, int depth, String cypherText) {
+		String alphabet = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		/*
+		 * Recursive function that, generates A-Z all Permutations using depth
+		 */		
+		
+		if (prefix.length() >= depth){
+			
+			// decrypting with each key that have been generated
+			String result = new Vigenere(new String(prefix)).doCypher(cypherText, false);
+			
+			// calculating the score, and checking how English readable it is.
+			float score = map.getScore(result);
+			
+			// populating the map with decoded key and score
+			bestScores.putScore(new Score(prefix, score));
+			
+		} else{
+			for (int i = 0; i < alphabet.length(); i++){
+				permutation(prefix + alphabet.charAt(i), depth, cypherText);
 			}
 		}
-		return key;
-	}
-	
-	
-	public void crackCypher(String cypherText, int maxKeyLength){
-		char[] key = null;
 		
-		int counter = 0;
-		for (int j = 3; j <= maxKeyLength; j++){
-			key = new char[j];
-			for (int k = 0; k < key.length; k++) key[k] = 'A';
-			
-			do{
-				counter++;
-				//System.out.println(new String(key));
-				
-			}while ((key = getNextKey(key)) != null);
-		}
-		System.out.println("Enumerated " + counter + " keys.");
 	}
 	
-	public static void main(String[] args) {
-		new KeyEnumerator().crackCypher("TVHUGTUDHKOURUGTS", 6);
+	// this function is for testing the original English string, based on calculated algorithm
+	public float calcScore(String plainText){
+		
+		float score = 0f;
+		
+		score = map.getScore(plainText);
+		
+		System.out.println("Original score:" + score);
+		return score;
+	}
+	
+	// this function runs the decrypter, based on max size of the key
+	public void crackCypher(String cypherText, int maxKeyLength){
+		
+		for (int i = KeyEnumerator.MIN_KEY_LENGTH; i <= maxKeyLength; i++){
+			permutation("", i, cypherText);
+		}		
+	}
+	
+	// displays top scores in the console
+	public void displayTopScores(){
+		for (int i=0; i<bestScores.size(); i++){
+			System.out.println(i + ") Best scores: " + bestScores.get(i).getScore() + " key:" + bestScores.get(i).getKey());
+		}
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		/*
+		 * 4 english strings for testing
+		 */
+		
+		String plainText = 				
+				//new String("ARENOWJUSTFAMILYESTATES");
+				new String("THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG");
+				//new String("ONGERMYFAITHFULSLAVEASYOUCALLYOURSELFBUTHOWDOYOUDOISEEIHAVEFRIGHTENEDYOUSITDOWNANDTELLMEALLTHENEWSITWASINJULYANDTHE");
+				//new String("ONGERMYFAITHFULSLAVEASYOUCALLYOURSELFBUTHOWDOYOUDOISEEIHAVEFRIGHTENEDYOUSITDOWNANDTELLMEALLTHENEWSITWASINJULYANDTHESPEAKERWASTHEWELLKNOWNANNAPAVLOVNASCHERERMAIDOFHONORANDFAVORITEOFTHEEMPRESSMARYAFEDOROVNAWITHTHESEWORDSSHEGREETEDPRINCEVASILIKURAGINAMANOFHIGHRANKANDIMPORTANCEWHOWASTHEFIRSTTOARRIVEATHERRECEPTIONANNAPAVLOVNAHADHADACOUGHFORSOMEDAYSSHEWASASSHESAIDSUFFERINGFROMLAGRIPPEGRIPPEBEINGTHENANEWWORDINSTPETERSBURGUSEDONLYBYTHEELITEALLHERINVITATIONSWITHOUTEXCEPTIONWRITTENINFRENCHANDDELIVEREDBYASCARLETLIVERIEDFOOTMANTHATMORNINGRANASFOLLOWSIFYOUHAVENOTHINGBETTERTODOCOUNTORPRINCEANDIFTHEPROSPECTOFSPENDINGANEVENINGWITHAPOORINVALIDISNOTTOOTERRIBLEISHALLBEVERYCHARMEDTOSEEYOUTONIGHTBETWEENANDANNETTESCHERERHEAVENSWHATAVIRULENTATTACKREPLIEDTHEPRINCENOTINTHELEASTDISCONCERTEDBYTHISRECEPTIONHEHADJUSTENTEREDWEARINGANEMBROIDEREDCOURTUNIFORMKNEEBREECHESANDSHOESANDHADSTARSONHISBREASTANDASERENEEXPRESSIONONHISFLATFACEHESPOKEINTHATREFINEDFRENCHINWHICHOURGRANDFATHERSNOTONLYSPOKEBUTTHOUGHTANDWITHTHEGENTLEPATRONIZINGINTONATIONNATURALTOAMANOFIMPORTANCEWHOHADGROWNOLDINSOCIETYANDATCOURTHEWENTUPTOANNAPAVLOVNAKISSEDHERHANDPRESENTINGTOHERHISBALDSCENTEDANDSHININGHEADANDCOMPLACENTLYSEATEDHIMSELFONTHESOFAFIRSTOFALLDEARFRIENDTELLMEHOWYOUARESETYOURFRIENDSMINDATRESTSAIDHEWITHOUTALTERINGHISTONEBENEATHTHEPOLITENESSANDAFFECTEDSYMPATHYOFWHICHINDIFFERENCEANDEVENIRONY");
+	
+		
+		Vigenere v = new Vigenere("JAVA");
+		String cypherText = v.doCypher(plainText, true);
+		
+		KeyEnumerator ke = new KeyEnumerator();
+		System.out.println("Cracking Started:  " + System.currentTimeMillis());
+		ke.crackCypher(cypherText, 4);
+		System.out.println("Cracking Finished: " + System.currentTimeMillis());
+		ke.displayTopScores();
+		
 	}
 }
