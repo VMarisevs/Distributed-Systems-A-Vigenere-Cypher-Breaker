@@ -63,11 +63,18 @@ public class KeyEnumerator {
 	}
 	
 	// this function runs the decrypter, based on max size of the key
-	public void crackCypher(String cypherText, int maxKeyLength){
+	public String crackCypher(String cypherText, int maxKeyLength){
 		
 		for (int i = KeyEnumerator.MIN_KEY_LENGTH; i <= maxKeyLength; i++){
 			permutation("", i, cypherText);
-		}		
+		}	
+		
+		// getting the top key
+		Vigenere v = new Vigenere(bestScores.get(0).getKey());
+		// decrypting
+		String result = v.doCypher(cypherText, false);
+		
+		return result;
 	}
 	
 	// displays top scores in the console
@@ -92,12 +99,13 @@ public class KeyEnumerator {
 		
 		Vigenere v = new Vigenere("JAVA");
 		String cypherText = v.doCypher(plainText, true);
-		
+		System.out.println("Plain text: " + plainText);
+		System.out.println("Cypher text: " + cypherText);
 		KeyEnumerator ke = new KeyEnumerator();
 		System.out.println("Cracking Started:  " + System.currentTimeMillis());
-		ke.crackCypher(cypherText, 4);
-		System.out.println("Cracking Finished: " + System.currentTimeMillis());
-		ke.displayTopScores();
+		String bestResult = ke.crackCypher(cypherText, 4);
+		System.out.println("Cracking Finished: " + System.currentTimeMillis() + "\n " + bestResult);
+		//ke.displayTopScores();
 		
 	}
 }
