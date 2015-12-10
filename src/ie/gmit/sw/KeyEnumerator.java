@@ -21,7 +21,7 @@ public class KeyEnumerator {
 		 */
 		
 		map.parseGramsFromFile("./WarAndPeace-Tolstoy.txt");
-		//map.preloadGramsFromFile("./quadgrams.txt");
+		map.preloadGramsFromFile("./quadgrams.txt");
 	
 	}	
 	
