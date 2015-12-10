@@ -2,6 +2,7 @@
 .metadata
 .gradle
 bin/
+build/
 tmp/
 *.tmp
 *.bak
@@ -10,6 +11,8 @@ tmp/
 local.properties
 .settings/
 .loadpath
+
+.DS_Store
 
 # Eclipse Core
 .project
