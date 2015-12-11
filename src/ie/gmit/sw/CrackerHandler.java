@@ -1,25 +1,25 @@
 package ie.gmit.sw;
 
 import java.io.*;
-import java.rmi.Naming;
-import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import ie.gmit.rm.VigenereBreaker;
-
 public class CrackerHandler extends HttpServlet {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	
 	private String remoteHost = null;
 	private static long jobNumber = 0;
-	private Map<Long,String> jobMap;
+
 	String cypherText;
 	int maxKeyLength;
-	
-	public CrackerHandler() {
-		jobMap = new HashMap<Long,String>();
-	}
+
 	
 	public void init() throws ServletException {
 		ServletContext ctx = getServletContext();
@@ -44,25 +44,19 @@ public class CrackerHandler extends HttpServlet {
 		if (taskNumber == null){
 			
 			jobNumber = System.currentTimeMillis();
-			taskNumber = new String("T" + jobNumber);
+			taskNumber = new String(""+jobNumber);
+
+			Work.add(new Job(jobNumber,null,cypherText,maxKeyLength));
 			
-			new Thread(){
-			    public void run(){
-			    	try {
-						//String result = new String(getVigenereBreaker().decrypt("CHZQDRLTKAXFWOXGSDVYBXENACQNUJIHMXP", 4));
-						String result = new String(getVigenereBreaker().decrypt(cypherText, maxKeyLength));
-						jobMap.put(jobNumber, result);
-						
-					} catch (Exception e) {}
-			    }
-			  }.start();
+		} else{
+			long taskId = Long.parseLong(taskNumber);
+
+			result = "in:"+ Work.inQueueSize() +" out:" + Work.outQueueSize();
 			
-		}
-		
-		if (jobMap.containsKey(jobNumber)){
-			if (jobMap.get(jobNumber).length() >0){
-				result = new String(jobMap.get(jobNumber));
+			if (Work.contains(taskId)){
+				result += "<br/>" + Work.get(taskId);
 			}
+
 		}
 		
 		out.print("<html><head><title>Distributed Systems Assignment</title>");		
@@ -115,10 +109,5 @@ public class CrackerHandler extends HttpServlet {
 		doGet(req, resp);
  	}
 	
-	private VigenereBreaker getVigenereBreaker() throws Exception{
-		VigenereBreaker vigenereBreaker = (VigenereBreaker) 
-				Naming.lookup("rmi://localhost:1099/VigenereBreakerService");
-		
-		return vigenereBreaker;
-	}
+
 }
