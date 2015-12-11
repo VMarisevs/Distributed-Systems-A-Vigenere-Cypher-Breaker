@@ -59,6 +59,7 @@ public class GramMap {
 	    	
 	    	map.put(key,value);
 	    }
+	    br.close();
 	}
 	
 	// parsing the file and populating gram map

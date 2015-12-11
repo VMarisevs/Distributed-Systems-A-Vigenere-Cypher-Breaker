@@ -1,8 +1,5 @@
 package ie.gmit.sw;
 
-import java.io.*;
-import java.util.*;
-
 public class QuadgramMap extends GramMap{
 
 	/*

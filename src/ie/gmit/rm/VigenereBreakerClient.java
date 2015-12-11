@@ -2,9 +2,6 @@ package ie.gmit.rm;
 
 import java.rmi.Naming;
 
-import javax.naming.*;
-import javax.rmi.*;
-
 public class VigenereBreakerClient {
 
 	public static void main(String[] args) throws Exception {
