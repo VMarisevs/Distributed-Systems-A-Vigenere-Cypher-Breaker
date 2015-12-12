@@ -1,9 +1,11 @@
-package ie.gmit.rm;
+package ie.gmit.sw;
 
 import java.rmi.Naming;
 import java.rmi.registry.*;
 
-public class VigenereBreakerServer {
+import ie.gmit.rm.*;
+
+public class Servant {
 	public static void main(String[] args) {
 		int PORT = 1099;
 		

@@ -20,9 +20,9 @@ public class GramMap {
 		
 		for (int i = 0; i < text.length(); i++){
 			
-			if (i + 4 >= text.length()) break;
+			if (i + gramSize >= text.length()) break;
 			
-			String next = text.substring(i, i+4);
+			String next = text.substring(i, i + gramSize);
 			
 			if (map.get(next) != null){
 				float frequency = (float)map.get(next);
