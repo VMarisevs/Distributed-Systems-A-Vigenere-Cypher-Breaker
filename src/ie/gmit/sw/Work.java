@@ -73,7 +73,7 @@ public class Work implements ServletContextListener{
 						 * making rmi call to break the cypher text
 						 * and populates the outMap
 						 */
-						
+						/*
 								Job job;
 								while ((job = inQueue.poll()) != null) {
 									try {
@@ -86,7 +86,7 @@ public class Work implements ServletContextListener{
 										throw new RuntimeException(e.getMessage(), e);
 									}
 								}
-						
+						*/
 						
 								
 						/*
@@ -96,7 +96,7 @@ public class Work implements ServletContextListener{
 						 * and populates the outMap
 						 */
 						
-								/*
+								
 								Job job;
 								while ((job = inQueue.poll()) != null) {
 									try {
@@ -106,7 +106,7 @@ public class Work implements ServletContextListener{
 										throw new RuntimeException(e.getMessage(), e);
 									}
 								}
-								*/
+								
 						
 						
 					}catch (InterruptedException e) {
