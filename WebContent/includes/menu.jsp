@@ -4,6 +4,7 @@
       <ul class="nav navbar-nav">
 			<li id="btn-home" class=""><a href="index.jsp"><strong>Home</strong></a></li>
 			<li id="btn-status" class=""><a href="status"><strong>Status</strong></a></li>
+			<li id="btn-github" class=""><a href="https://github.com/VMarisevs/Distributed-Systems-A-Vigenere-Cypher-Breaker/"><strong>GitHub</strong></a></li>
       </ul>
     </div>
   </div>

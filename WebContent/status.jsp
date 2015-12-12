@@ -18,14 +18,15 @@
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
+	
+</head>
+<body>	
+
+	<%@ include file="includes/menu.jsp" %>
 	<script>
 		var element = document.getElementById("btn-status");
 		element.classList.add("active");
 	</script>
-</head>
-<body>
-
-	<%@ include file="includes/menu.jsp" %>
 
 <%
 	// getting array of jobs from Status Handler HttpServlet
