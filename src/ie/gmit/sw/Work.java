@@ -10,12 +10,14 @@ public class Work implements ServletContextListener{
 
 	private static final BlockingQueue<Job> inQueue = new LinkedBlockingQueue<Job>();
 	private static final Map<Long,String> outMap = new HashMap<Long,String>();
+	private static final List<Job> status = new ArrayList<Job>();
 	
 	private Thread thread;
 
 	// adding new job into queue
 	public static void add(Job job){
 		inQueue.add(job);
+		status.add(job);
 	}
 	
 	// checking inQueue size
@@ -45,9 +47,12 @@ public class Work implements ServletContextListener{
 		outMap.put(id, result);
 	}
 	
+	public static Job[] getStatus(){
+		return status.toArray(new Job[status.size()]);
+	}
 	
 	@Override
-	public void contextDestroyed(ServletContextEvent arg0) {
+ 	public void contextDestroyed(ServletContextEvent arg0) {
 		thread.interrupt();		
 	}
 
@@ -100,6 +105,7 @@ public class Work implements ServletContextListener{
 								Job job;
 								while ((job = inQueue.poll()) != null) {
 									try {
+										job.setProcessing();
 										new Thread(new AsyncRmiRequest(job)).start();
 										
 									}catch (Exception e) {

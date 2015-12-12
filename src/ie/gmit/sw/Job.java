@@ -6,6 +6,7 @@ public class Job {
 	private String plainText;
 	private String cypherText;
 	private int maxKeyLength;
+	private char status;
 
 	
 	
@@ -15,6 +16,7 @@ public class Job {
 		this.plainText = plainText;
 		this.cypherText = cypherText;
 		this.maxKeyLength = maxKeyLength;
+		this.status = 'p'; // p - for pending; o - operation or processing; r - ready
 	}
 	public int getMaxKeyLength() {
 		return maxKeyLength;
@@ -41,4 +43,19 @@ public class Job {
 		this.cypherText = cypherText;
 	}
 	
+	public void setProcessing(){
+		this.status = 'o';
+	}
+	
+	public void setReady(){
+		this.status = 'r';
+	}
+	
+	public void setPending(){
+		this.status = 'p';
+	}
+	
+	public char getStatus(){
+		return this.status;
+	}
 }

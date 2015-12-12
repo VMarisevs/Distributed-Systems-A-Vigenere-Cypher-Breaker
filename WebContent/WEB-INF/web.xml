@@ -25,6 +25,12 @@
     <servlet-class>ie.gmit.sw.CrackerHandler</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>
+  
+  <servlet>
+    <servlet-name>status-handler</servlet-name>
+    <servlet-class>ie.gmit.sw.StatusHandler</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
  
  <listener>
  	<listener-class>ie.gmit.sw.Work</listener-class>
@@ -34,6 +40,11 @@
   <servlet-mapping>
     <servlet-name>cypher-request-handler</servlet-name>
     <url-pattern>/doProcess</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>status-handler</servlet-name>
+    <url-pattern>/status</url-pattern>
   </servlet-mapping>
   
  

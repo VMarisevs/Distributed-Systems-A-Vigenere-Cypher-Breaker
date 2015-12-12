@@ -16,6 +16,7 @@ public class AsyncRmiRequest implements Runnable {
 						RMICallVigenereBreaker.getVigenereBreaker().decrypt(job.getCypherText(), job.getMaxKeyLength())
 					));
 			Work.put(job.getJobId(), job.getPlainText());
+			job.setReady();
 		} catch(Exception e){}
 		
 	}
