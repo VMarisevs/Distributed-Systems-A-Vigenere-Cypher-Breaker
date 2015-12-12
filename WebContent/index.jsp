@@ -1,5 +1,10 @@
 <%@ include file="includes/header.jsp" %>
 
+<script>
+	var element = document.getElementById("btn-home");
+	element.classList.add("active");
+</script>
+
 <div class="animated bounceInDown" style="font-size:48pt; font-family:arial; color:#990000; font-weight:bold">Vigenere Cypher Breaker</div>
 
 </p>&nbsp;</p>&nbsp;</p>
@@ -12,7 +17,7 @@
 				<fieldset>
 					<legend><h3>Cypher Details</h3></legend>
 				
-					<b>Maximum Vigenere Key Length: <input name="frmMaxKeyLength" type="text" size="2" value="7">
+					<b>Maximum Vigenere Key Length: <input name="frmMaxKeyLength" type="text" size="2" value="4">
 					<p/>
 
 					<b>Enter Cypher-Text:</b><br>

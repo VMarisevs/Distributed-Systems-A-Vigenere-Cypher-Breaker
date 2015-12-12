@@ -14,6 +14,9 @@ This class extends HttpServlet and is resposible for accepting the form variable
 I am using *currentTimeMillis()* as an id for each task. Duplication might occur, but when you are doing on your own, it is very hard to make it :) At the time when job id is initialized I am passing a job object to Work class to implement the work.
 Also each user can see in queue and out queue size.
 
+##### StatusHandler.java
+This HttpServlet is just displaying the status of jobs, that Web application received from user and passed to RMI Service.
+
 ##### Job.java
 This is a basic class with overloaded contructor that defines all parameters to make a RMI call and receive a result.(job id, plain text as result, cypher text and max key lenght passed from user)
 
