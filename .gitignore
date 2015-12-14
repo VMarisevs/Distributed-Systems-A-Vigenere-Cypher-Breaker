@@ -2,7 +2,10 @@
 .metadata
 .gradle
 bin/
+<<<<<<< HEAD
 build/
+=======
+>>>>>>> 1b570c13f883dc5fbb9cb5fcc9ea00cc4300c617
 tmp/
 *.tmp
 *.bak
@@ -12,8 +15,11 @@ local.properties
 .settings/
 .loadpath
 
+<<<<<<< HEAD
 .DS_Store
 
+=======
+>>>>>>> 1b570c13f883dc5fbb9cb5fcc9ea00cc4300c617
 # Eclipse Core
 .project
 
